@@ -1,9 +1,10 @@
 <template>
 	<div class="page-body">
 		<h1 class="title-text">{{ title }}</h1>
+		<input class="filter" type="search" placeholder="Filtre por parte do título" @input="filter = $event.target.value">
 
 		<ul class="pictures-list">
-			<li class="pictures-list-item" v-for="picture of pictures" :key="picture">
+			<li class="pictures-list-item" v-for="picture of picturesWithFilter" :key="picture">
 
 				<my-component-box :title="picture.titulo">
 					<img  class="box-image" :src="picture.url" :alt="picture.title">
@@ -15,7 +16,7 @@
 </template>
 
 <script>
-	import Box from './components/shared/box/Box.vue';
+	import Box from './components/shared/box/Box.vue'; 
 
 	export default {
 
@@ -26,7 +27,19 @@
 		data() {
 			return {
 				title: 'Vue pictures',
-				pictures: []
+				pictures: [],
+				filter: ''
+			}
+		},
+
+		computed: {
+			picturesWithFilter() {
+				if (this.filter) { 
+					let exp = new RegExp(this.filter.trim(), 'i');
+					return this.pictures.filter(picture => exp.test(picture.titulo));
+				} else {
+					return this.pictures; 
+				}
 			}
 		},
 
@@ -47,10 +60,17 @@
 	.title-text {
 		text-align: center;
 	}
+	.filter {
+		display: block;
+		width: 100%;
+	}
 	.pictures-list {
 		list-style: none;
 	}
 	.pictures-list-item {
 		display: inline-block;
 	}
+	.box-image {
+	  width: 100%;
+  	}
 </style>

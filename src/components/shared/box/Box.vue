@@ -1,13 +1,24 @@
 <template>
 	<div class="box">
-		<h2 class="box-title">{{ title }}</h2>
-		<slot class="box-content"></slot>
+    <!-- @dblclick é igual a v-on:dblclick-->
+		<h2 class="box-title" @dblclick="visible = !visible">{{ title }}</h2>
+    <transition name='box-fade'>
+      <div class="box-content" v-show="visible">
+        <slot></slot>
+      </div>
+    </transition>
 	</div>
 </template>
 
 <script>
 export default {
-    props: ['title']
+    props: ['title'],
+
+    data() {
+      return {
+        visible: true
+      }
+    }
 }
 </script>
 
@@ -31,7 +42,10 @@ export default {
     padding: 10px;
     text-transform: uppercase;
   }
-  .box-image {
-	  width: 100%;
+  .box-fade-enter, .box-fade-leave-active {
+    opacity: 0;
+  }
+  .box-fade-enter-activce, .box-fade-leave-active {
+    transition: opacity .4s;
   }
 </style>
