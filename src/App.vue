@@ -7,7 +7,7 @@
 			<li class="pictures-list-item" v-for="picture of picturesWithFilter" :key="picture">
 
 				<my-component-box :title="picture.titulo">
-					<img  class="box-image" :src="picture.url" :alt="picture.title">
+					<my-component-box-image :url="picture.url" :alt="picture.titulo"></my-component-box-image>
 				</my-component-box>
 
 			</li>
@@ -17,11 +17,13 @@
 
 <script>
 	import Box from './components/shared/box/Box.vue'; 
+	import ResponsiveImage from './components/shared/responsive-image/ResponsiveImage.vue'; 
 
 	export default {
 
 		components: {
-			'my-component-box': Box
+			'my-component-box': Box, 
+			'my-component-box-image': ResponsiveImage
 		}, 
 
 		data() {
@@ -70,7 +72,4 @@
 	.pictures-list-item {
 		display: inline-block;
 	}
-	.box-image {
-	  width: 100%;
-  	}
 </style>
