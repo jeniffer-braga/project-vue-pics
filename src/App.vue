@@ -1,16 +1,28 @@
 <template>
-	<div>
-		<h1>{{ title }}</h1>
-		<ul>
-			<li v-for="picture of pictures" :key="picture">
-				<img :src="picture.url" :alt="picture.title">
+	<div class="page-body">
+		<h1 class="title-text">{{ title }}</h1>
+
+		<ul class="pictures-list">
+			<li class="pictures-list-item" v-for="picture of pictures" :key="picture">
+
+				<my-component-box :title="picture.titulo">
+					<img  class="box-image" :src="picture.url" :alt="picture.title">
+				</my-component-box>
+
 			</li>
 		</ul>
 	</div> 
 </template>
 
 <script>
+	import Box from './components/shared/box/Box.vue';
+
 	export default {
+
+		components: {
+			'my-component-box': Box
+		}, 
+
 		data() {
 			return {
 				title: 'Vue pictures',
@@ -23,7 +35,22 @@
 				.then(res => res.json())
 				.then(resPictures => this.pictures = resPictures, err => console.log(err)); 
 		}
-}
+	}	
 </script>
 
-<style></style>
+<style>
+	.page-body {
+		font-family: Helvetica, sans-serif;
+		width: 96%;
+		margin: 0 auto;
+	}
+	.title-text {
+		text-align: center;
+	}
+	.pictures-list {
+		list-style: none;
+	}
+	.pictures-list-item {
+		display: inline-block;
+	}
+</style>
