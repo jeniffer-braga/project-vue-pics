@@ -7,7 +7,8 @@
 			<li class="pictures-list-item" v-for="picture of picturesWithFilter" :key="picture">
 
 				<my-component-box :title="picture.titulo">
-					<my-component-box-image :url="picture.url" :alt="picture.titulo"></my-component-box-image>
+					<my-component-box-image :url="picture.url" :alt="picture.titulo"/>
+					<my-component-button type="button" title="EXCLUIR" @activatedButton="remove(picture)"/>
 				</my-component-box>
 
 			</li>
@@ -18,12 +19,14 @@
 <script>
 import Box from '../shared/box/Box.vue'; 
 import ResponsiveImage from '../shared/responsive-image/ResponsiveImage.vue'; 
+import Button from '../shared/button/Button.vue';
 
 export default {
 
 	components: {
 		'my-component-box': Box, 
-		'my-component-box-image': ResponsiveImage
+		'my-component-box-image': ResponsiveImage,
+		'my-component-button': Button
 	}, 
 
 	data() {
@@ -42,6 +45,12 @@ export default {
 			} else {
 				return this.pictures; 
 			}
+		}
+	},
+
+	methods: {
+		remove(picture) {
+			alert('Imagem ' + picture.titulo + ' removida.'); 
 		}
 	},
 
