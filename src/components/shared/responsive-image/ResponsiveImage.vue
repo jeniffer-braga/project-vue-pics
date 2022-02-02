@@ -9,7 +9,7 @@ export default {
 </script>
 
 <style scoped>
-	.box-image {
-	  width: 100%;
-  	}
+.box-image {
+	width: 100%;
+}
 </style>
