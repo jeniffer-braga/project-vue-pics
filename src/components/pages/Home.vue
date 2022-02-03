@@ -7,7 +7,7 @@
 			<li class="pictures-list-item" v-for="picture of picturesWithFilter" :key="picture">
 
 				<my-component-box :title="picture.titulo">
-					<my-component-box-image :url="picture.url" :alt="picture.titulo"/>
+					<my-component-box-image :url="picture.url" :alt="picture.titulo" v-my-transform/>
 					<my-component-button 
 						type="button" 
 						title="EXCLUIR" 
