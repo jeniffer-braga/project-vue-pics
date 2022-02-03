@@ -1,17 +1,42 @@
 <template>
-   <button @click="enableAction()" class="button danger-button" :type="type">{{ title }}</button>
+   <button @click="enableAction()" class="button" :class="styleOfButton" :type="type">{{ title }}</button>
 </template>
 
 <script>
 export default {
-   props: ['type', 'title'],
+   props: {
+      type: {
+         type: String,
+         required: true
+      }, 
+      title: {
+         type: String,
+         required: true
+      },
+      buttonStyle: String,
+      confirmation: Boolean
+   },
+
 	methods: {
 		enableAction() {
-			if (confirm('Deseja excluir a imagem?')){
-				this.$emit('activatedButton'); 
-			}
+         if (this.confirmation) {
+            if (confirm('DESEJA ' + this.title + ' A IMAGEM?')) {
+				   this.$emit('activatedButton'); 
+			   }
+            return; 
+         } 
+         this.$emit('activatedButton');
 		}
-	}
+	},
+
+   computed: {
+
+      styleOfButton() {
+         if (this.buttonStyle == 'default' || !this.buttonStyle) return 'default-button'; 
+         if (this.buttonStyle == 'danger') return 'danger-button';
+      }
+
+   }
 }
 </script>
 
@@ -27,7 +52,7 @@ export default {
    background: firebrick;
    color: white;
 }
-.bdefault-button {
+.default-button {
    background: darkcyan;
    color: white;
 }

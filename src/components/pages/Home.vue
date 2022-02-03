@@ -8,7 +8,13 @@
 
 				<my-component-box :title="picture.titulo">
 					<my-component-box-image :url="picture.url" :alt="picture.titulo"/>
-					<my-component-button type="button" title="EXCLUIR" @activatedButton="remove(picture)"/>
+					<my-component-button 
+						type="button" 
+						title="EXCLUIR" 
+						buttonStyle="default"
+						:confirmation="true"
+						@activatedButton="remove(picture)"
+					/>
 				</my-component-box>
 
 			</li>
