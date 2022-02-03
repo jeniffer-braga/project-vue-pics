@@ -48,4 +48,7 @@ export default {
 .box-fade-enter-activce, .box-fade-leave-active {
    transition: opacity .4s;
 }
+.box-content {
+   overflow: hidden;
+}
 </style>

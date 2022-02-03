@@ -7,7 +7,7 @@
 			<li class="pictures-list-item" v-for="picture of picturesWithFilter" :key="picture">
 
 				<my-component-box :title="picture.titulo">
-					<my-component-box-image :url="picture.url" :alt="picture.titulo" v-my-transform/>
+					<my-component-box-image :url="picture.url" :alt="picture.titulo" v-my-transform:scale.animate="1.2"/>
 					<my-component-button 
 						type="button" 
 						title="EXCLUIR" 
@@ -26,6 +26,7 @@
 import Box from '../shared/box/Box.vue'; 
 import ResponsiveImage from '../shared/responsive-image/ResponsiveImage.vue'; 
 import Button from '../shared/button/Button.vue';
+import transform from '../../directives/Transform'; 
 
 export default {
 
@@ -34,6 +35,10 @@ export default {
 		'my-component-box-image': ResponsiveImage,
 		'my-component-button': Button
 	}, 
+
+	directives: {
+		'my-transform': transform
+	},
 
 	data() {
 		return {
