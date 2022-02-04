@@ -11,7 +11,7 @@
 					<my-component-button 
 						type="button" 
 						title="EXCLUIR" 
-						buttonStyle="default"
+						buttonStyle="danger"
 						:confirmation="true"
 						@activatedButton="remove(picture)"
 					/>
