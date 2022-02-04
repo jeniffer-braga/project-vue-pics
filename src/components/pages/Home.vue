@@ -1,6 +1,7 @@
 <template>
 	<div>
-	   <h1 class="title-text">{{ title }}</h1>
+	   <h1 class="text">{{ title }}</h1>
+	   <p v-show="message" class="text">{{ message }}</p>
 		<input class="filter" type="search" placeholder="Filtre por parte do título" @input="filter = $event.target.value">
 
 		<ul class="pictures-list">
@@ -44,7 +45,8 @@ export default {
 		return {
 			title: 'Vue pictures',
 			pictures: [],
-			filter: ''
+			filter: '',
+			message: ''
 		}
 	},
 
@@ -61,7 +63,19 @@ export default {
 
 	methods: {
 		remove(picture) {
-			alert('Imagem ' + picture.titulo + ' removida.'); 
+
+			this.$http
+         .delete(`http://localhost:3000/v1/fotos/${picture._id}`)
+         .then(() => {
+            let indice = this.pictures.indexOf(picture);
+            this.pictures.splice(indice, 1);
+            this.message = 'IMAGEM REMOVIDA COM SUCESSO.';
+         }, 
+         err => {
+            this.message = 'NÃO FOI POSSÍVEL REMOVER A IMAGEM.';
+            console.log(err);  
+         }); 
+
 		}
 	},
 
@@ -74,7 +88,7 @@ export default {
 </script>
 
 <style scoped>
-.title-text {
+.text {
 	text-align: center;
 }
 .filter {
