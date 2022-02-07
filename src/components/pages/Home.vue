@@ -28,6 +28,7 @@ import Box from '../shared/box/Box.vue';
 import ResponsiveImage from '../shared/responsive-image/ResponsiveImage.vue'; 
 import Button from '../shared/button/Button.vue';
 import transform from '../../directives/Transform'; 
+import PictureService from '../../domain/picture/PictureService'; 
 
 export default {
 
@@ -63,26 +64,25 @@ export default {
 
 	methods: {
 		remove(picture) {
-
-			this.$http
-         .delete(`http://localhost:3000/v1/fotos/${picture._id}`)
-         .then(() => {
-            let indice = this.pictures.indexOf(picture);
-            this.pictures.splice(indice, 1);
-            this.message = 'IMAGEM REMOVIDA COM SUCESSO.';
-         }, 
-         err => {
-            this.message = 'NÃO FOI POSSÍVEL REMOVER A IMAGEM.';
-            console.log(err);  
-         }); 
-
+         this.service
+            .deletePicture(picture._id) 
+            .then(() => {
+               let indice = this.pictures.indexOf(picture);
+               this.pictures.splice(indice, 1);
+               this.message = 'IMAGEM REMOVIDA COM SUCESSO';
+            }, 
+            err => {
+               this.message = 'NÃO FOI POSSÍVEL REMOVER A IMAGEM';
+               console.log(err);  
+            }); 
 		}
 	},
 
 	created() {
-		this.$http.get('http://localhost:3000/v1/fotos')
-			.then(res => res.json())
-			.then(resPictures => this.pictures = resPictures, err => console.log(err)); 
+      this.service = new PictureService(this.$resource);
+      this.service
+         .listPictures()
+		   .then(resPictures => this.pictures = resPictures, err => console.log(err)); 
 	}
 }	
 </script>

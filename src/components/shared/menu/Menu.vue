@@ -1,8 +1,8 @@
 <template>
    <nav>
 		<ul>
-			<li v-for="route in routes" :key="route.name">
-				<router-link :to="route.path">{{ route.name }}</router-link>
+			<li v-for="route in routes" :key="route.title">
+				<router-link :to="route.path">{{ route.title }}</router-link>
 			</li>
 		</ul>
 	</nav>

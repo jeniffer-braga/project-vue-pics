@@ -22,7 +22,7 @@
 
          <div class="text">
             <my-component-button title="SALVAR" type="submit"/>
-            <router-link to="/">
+            <router-link :to="{ name: 'home'}">
                <my-component-button title="VOLTAR" type="button"/>
             </router-link>
          </div>
@@ -34,7 +34,8 @@
 <script>
 import ResponsiveImage from '../shared/responsive-image/ResponsiveImage.vue'; 
 import Button from '../shared/button/Button.vue'; 
-import Picture from '../../domain/picture/Picture'; 
+import Picture from '../../domain/picture/Picture';
+import PictureService from '../../domain/picture/PictureService'; 
 
 export default {
 
@@ -51,10 +52,15 @@ export default {
 
    methods: {
       savePicture() {
-         this.$http.post('http://localhost:3000/v1/fotos', this.picture)
+         this.service
+            .registerPicture(this.picture)
             .then(() => this.picture = new Picture(), err => console.log(err)); 
-         alert('IMAGEM SALVA COM SUCESSO!'); 
+            alert('IMAGEM SALVA COM SUCESSO!'); 
       }
+   },
+   
+   created() {
+      this.service = new PictureService(this.$resource);
    }
 }
 </script>
