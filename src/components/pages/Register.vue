@@ -1,7 +1,10 @@
 <template>
    <div>
       <h1 class="text">Cadastro</h1>
-      <h2 class="text"></h2>
+      <h2 class="text">{{ picture.titulo }}</h2>
+
+      <h2 v-if="picture._id" class="text">Alterando imagem</h2>
+      <h2 v-else class="text">Incluindo imagem</h2>
 
       <form @submit.prevent="savePicture()">
          <div class="control">
@@ -12,7 +15,7 @@
          <div class="control">
             <label for="url">URL</label>
             <input id="url" autocomplete="off" v-model.lazy="picture.url">
-            <my-component-image v-show="picture.url" :url="picture.url" :title="picture.title"/>
+            <my-component-image v-show="picture.url" :url="picture.url" :title="picture.titulo"/>
          </div>
 
          <div class="control">
@@ -46,7 +49,8 @@ export default {
 
    data() {
       return {
-         picture: new Picture()
+         picture: new Picture(),
+         id: this.$route.params.id
       }
    },
 
@@ -54,13 +58,26 @@ export default {
       savePicture() {
          this.service
             .registerPicture(this.picture)
-            .then(() => this.picture = new Picture(), err => console.log(err)); 
-            alert('IMAGEM SALVA COM SUCESSO!'); 
+            .then(() => {
+               if (this.id) 
+                  this.$router.push({ name: 'home' }); 
+
+               this.picture = new Picture();
+               alert('IMAGEM SALVA COM SUCESSO!'); 
+            }, 
+               err => console.log(err)
+            ); 
       }
    },
    
    created() {
       this.service = new PictureService(this.$resource);
+
+      if (this.id) {
+         this.service
+            .searchPicture(this.id)
+            .then(picture => this.picture = picture);
+      }
    }
 }
 </script>

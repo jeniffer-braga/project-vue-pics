@@ -9,6 +9,11 @@
 
 				<my-component-box :title="picture.titulo">
 					<my-component-box-image :url="picture.url" :alt="picture.titulo" v-my-transform:scale.animate="1.2"/>
+
+					<router-link :to="{ name: 'alter', params: { id : picture._id} }">
+						<my-component-button type="button" title="ALTERAR"/>
+					</router-link>               
+
 					<my-component-button 
 						type="button" 
 						title="EXCLUIR" 
