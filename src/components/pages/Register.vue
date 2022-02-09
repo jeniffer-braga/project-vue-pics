@@ -9,12 +9,14 @@
       <form @submit.prevent="savePicture()">
          <div class="control">
             <label for="title">TÍTULO</label>
-            <input id="title" autocomplete="off" v-model.lazy="picture.titulo">
+            <input data-vv-as="título" name="title" id="title" autocomplete="off" v-model="picture.titulo" v-validate data-vv-rules="required|min:3|max:35">
+            <span class="error" v-show="errors.has('title')">{{ errors.first('title') }}</span>
          </div>
 
          <div class="control">
             <label for="url">URL</label>
-            <input id="url" autocomplete="off" v-model.lazy="picture.url">
+            <input name="url" id="url" autocomplete="off" v-model="picture.url" v-validate data-vv-rules="required">
+            <span class="error" v-show="errors.has('url')">{{ errors.first('url') }}</span>
             <my-component-image v-show="picture.url" :url="picture.url" :title="picture.titulo"/>
          </div>
 
@@ -56,17 +58,24 @@ export default {
 
    methods: {
       savePicture() {
-         this.service
-            .registerPicture(this.picture)
-            .then(() => {
-               if (this.id) 
-                  this.$router.push({ name: 'home' }); 
+         this.$validator
+         .validateAll()
+         .then(success => {
 
-               this.picture = new Picture();
-               alert('IMAGEM SALVA COM SUCESSO!'); 
-            }, 
-               err => console.log(err)
-            ); 
+            if (success) {
+               this.service
+               .registerPicture(this.picture)
+               .then(() => {
+
+                  if (this.id) this.$router.push({ name: 'home' }); 
+
+                  this.picture = new Picture();
+                  alert('IMAGEM SALVA COM SUCESSO!'); 
+               }, err => console.log(err));
+
+            } else alert('NÃO FOI POSSÍVEL SALVAR A IMAGEM');
+           
+         });
       }
    },
    
@@ -98,5 +107,9 @@ export default {
    width: 100%;
    font-size: inherit;
    border-radius: 5px
+}
+
+.error {
+   color: red;
 }
 </style>
