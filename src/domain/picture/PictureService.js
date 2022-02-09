@@ -7,7 +7,10 @@ export default class PictureService {
    listPictures() {
       return this._resource
          .query()
-         .then(res => res.json());
+         .then(res => res.json(), err => {
+            console.log(err);
+            throw new Error('NÃO FOI POSSÍVEL OBTER AS IMAGENS'); 
+         });
    }  
 
    registerPicture(picture) {
@@ -19,7 +22,12 @@ export default class PictureService {
    }
 
    deletePicture(pictureId) {
-      return this._resource.delete({ id: pictureId });
+      return this._resource
+         .delete({ id: pictureId })
+         .then(null, err => {
+            console.log(err);
+            throw new Error('NÃO FOI POSSÍVEL REMOVER A IMAGEM'); 
+         });
    }
 
    searchPicture(id) {

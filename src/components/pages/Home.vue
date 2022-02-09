@@ -76,10 +76,7 @@ export default {
                this.pictures.splice(indice, 1);
                this.message = 'IMAGEM REMOVIDA COM SUCESSO';
             }, 
-            err => {
-               this.message = 'NÃO FOI POSSÍVEL REMOVER A IMAGEM';
-               console.log(err);  
-            }); 
+            err => this.message = err.message); 
 		}
 	},
 
@@ -87,7 +84,7 @@ export default {
       this.service = new PictureService(this.$resource);
       this.service
          .listPictures()
-		   .then(resPictures => this.pictures = resPictures, err => console.log(err)); 
+		   .then(resPictures => this.pictures = resPictures, err => this.message = err.message); 
 	}
 }	
 </script>
